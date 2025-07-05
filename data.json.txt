@@ -1,0 +1,24 @@
+﻿[
+  {
+    "CQ": "12345",
+    "Destination": "Jeddah",
+    "Owner": "Faisal hadaydi",
+    "Arrival": "7/1/25",
+    "From": "Jeddah",
+    "Departure": "7/1/25",
+    "To": "Riyadh",
+    "Next": "Dammam",
+    "Needs": "Fragile"
+  },
+  {
+    "CQ": "54321",
+    "Destination": "Riyadh",
+    "Owner": "Ahmed Saleh",
+    "Arrival": "6/30/25",
+    "From": "Abha",
+    "Departure": "7/10/25",
+    "To": "Madinah",
+    "Next": "Jeddah",
+    "Needs": "Temperature"
+  }
+]
