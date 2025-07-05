@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Luggage Code Scanner</title>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    #resultBox {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e6f8fa;
+      border: 1px solid #ccc;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Luggage Code Scanner</h2>
+  <div id="qr-reader" style="width: 300px; margin: auto;"></div>
+  <div id="resultBox"></div>
+
+  <script>
+    async function fetchData(code) {
+      try {
+        const response = await fetch("data.json");
+        const data = await response.json();
+
+        const match = data.find(item => String(item.CQ).trim() === String(code).trim());
+
+        if (match) {
+          showData(match);
+        } else {
+          showData({ error: "Code not found" });
+        }
+      } catch (error) {
+        showData({ error: "Error fetching data" });
+      }
+    }
+
+    function onScanSuccess(decodedText) {
+      html5QrcodeScanner.clear();
+      document.getElementById("resultBox").style.display = "block";
+      document.getElementById("resultBox").innerText = "Fetching luggage data...";
+      fetchData(decodedText);
+    }
+
+    function showData(data) {
+      const box = document.getElementById("resultBox");
+      if (data.error) {
+        box.innerText = data.error;
+      } else {
+        box.innerHTML = `
+          <strong>Destination:</strong> ${data.Destination}<br>
+          <strong>Owner:</strong> ${data.Owner}<br>
+          <strong>Arrival:</strong> ${data.Arrival}<br>
+          <strong>From:</strong> ${data.From}<br>
+          <strong>Departure:</strong> ${data.Departure}<br>
+          <strong>To:</strong> ${data.To}<br>
+          <strong>Next:</strong> ${data.Next}<br>
+          <strong>Needs:</strong> ${data.Needs}
+        `;
+      }
+    }
+
+    const html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess);
+  </script>
+
+</body>
+</html>
